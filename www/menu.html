@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="css/menu.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" />
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<style>
+body {margin:0;}
+</style>
+<body>
+
+<div class="icon-bar">
+  <a href="#" onclick="goHome();"><i class="fa fa-home"></i></a> 
+  <a class="active" href="#"><i class="fa fa-user"></i></a> 
+  <a href="#"><i class="fa fa-id-card"></i></a> 
+  <a href="#" onclick="quit();"><i class="fa fa-close"></i></a>
+  <a href="#" onclick="goSettings();"><i class="fa fa-cog"></i></a> 
+</div>
+
+<script>
+  function goSettings(){
+        window.location='settings.html';
+      }
+  function goHome(){
+    window.location='index.html';
+  }
+  function quit(){
+     navigator.app.exitApp();
+  }
+</script>
+</body>
+</html> 

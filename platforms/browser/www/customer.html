@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="css/menu.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" />
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<style>
+body {margin:0;}
+</style>
+<body>
+
+<div class="icon-bar">
+  <a href="#" onclick="goHome();"><i class="fa fa-home"></i></a> 
+  <a class="active" href="#"><i class="fa fa-user"></i></a> 
+  <a href="#"><i class="fa fa-id-card"></i></a> 
+  <!-- <a href="#" onclick="quit();"><i class="fa fa-close"></i></a> -->
+  <a href="#" onclick="showExit();"><i class="fa fa-close"></i></a>
+  <a href="#" onclick="goSettings();"><i class="fa fa-cog"></i></a> 
+</div>
+<div class="row searchBar">
+   <div style="float:right;">
+    <label for="usr">Welcome user :</label><label id="usr" style="font-weight:bold;text-transform:capitalize;padding-left:2px;"></label>
+   </div>
+   </br></br>
+   <span><b>Search for:</b> UID/CAF/VC No./STB No.</span></br>
+   <span><input type="search" name="Search Customer" id="sString">
+   <input type="button" value="Search" onclick="searchSubs();"></span>
+</div></br>
+
+<div class="" style="padding:5px;">
+  <table>
+    <caption>Customer Details</caption><span style="float:right;color:red" id="subsState">InActive</span>
+    <tr>
+       <th scope="row" width="35%">Customer ID</th>
+       <td id="cID"></td>
+    </tr>
+    <tr>
+      <th scope="row" width="35%">CAF Number</th>
+      <td id="cafNo"></td>
+    </tr>
+    <tr>
+      <th scope="row" width="35%">VC Number</th>
+      <td id="vcNo"></td>
+    </tr>
+    <tr>
+      <th scope="row" width="35%">STB Number</th>
+      <td id="stbNo"></td>
+    </tr>
+  </table>
+  </br><hr/>
+  <!-- <h5>Subscription / Package details :</h5> -->
+  <div style="overflow-x: auto; overflow-y: auto; height:30vh;">
+  <table id="subsProducts">
+    <caption>Subscription / Package details</caption>
+    <thead>
+      <tr>
+          <th align="center">Pack No</th>
+          <th>Pack Name</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          </tr>
+    </thead>
+
+    <tbody>
+      
+    </tbody>
+  </table>
+  <span>Click a row to select a Package</span>
+  </div>
+
+  <div class="row"><span>Selected Package No. :</span><label id="selectedPackNo" style="padding-left:5px;color:black;font-weight:bold"></label>
+    <span style="float:right">No of Days: <input type="number" id="nDays" min="1" max="365" value=30></span></div></br>
+  <div class="row flex-container">
+    <input type="button" value="DActivate" onclick="DAct();">
+    <input type="button" value="Cancel Pack" onclick="Can();">
+    <input type="button" value="Buy / Update Pack" onclick="Act();">
+  </div>
+
+</div>
+    <!-- Image loader -->
+        <div id='loader' style="display:none;width:69px;height:89px;solid black;position:absolute;top:40%;left:40%;padding:2px;">
+            <img src='../www/img/processing.gif' width='64px' height='64px'><br>Loading..
+        </div>
+    <!-- Image loader -->
+<script>
+  $(document).ready(function() {
+       clearData();
+       showUsrName();
+       $("#subsProducts").delegate("tr", "click", function () {
+            $('#selectedPackNo').html($(this).find('td:eq(0)').text());
+         });
+       $("input").click(function() {
+          if(this.value == 'Buy / Update Pack'){
+            buyCancel(1);
+          }
+          if(this.value == 'Cancel Pack'){
+            buyCancel(0);
+          }
+          if(this.value == 'DActivate'){
+            buyCancel(2);
+          }         
+          //alert(action);
+        });
+      });
+  
+  function goSettings(){
+        window.location='settings.html';
+      }
+  function goHome(){
+    window.location='index.html';
+  }
+  function quit(){
+     navigator.app.exitApp();
+  }
+  function clearData(){
+    $('#subsState').html('');
+    $('#cID').text('');
+    $('#cafNo').text('');
+    $('#vcNo').text('');
+    $('#stbNo').text('');
+    $('#subsProducts').find('tr td').remove();
+    $('#selectedPackNo').html('');
+  }
+  function showUsrName(){
+     var msg = localStorage.getItem("uName");
+     $('#usr').html(msg);
+  }
+  function searchSubs() {
+    clearData();
+    if($('#sString').val() == ''){
+      showAlert('Search parameter is Null !\nPlease check.',alertDismissed,'Search Subscribers','OK') //msg,dismissfunc,title,btnName)
+      return false;
+    }
+    var defaultUrl = localStorage.getItem("dUrl");
+    var saveduCode = localStorage.getItem("uCode");
+    var searchString = $('#sString').val();
+    var myUrl = defaultUrl + "/Subscribers/uCode/" + saveduCode + "/sString/" + searchString;
+
+    $.ajax({
+        url : myUrl,
+        dataType   : 'json',
+        crossDomain: true,
+        cache: false,
+        beforeSend : function() {$("#loader").show();},
+        complete   : function() {$("#loader").hide();},
+        // data       : {uName : uName, password : uPwd}, 
+        success    : function(response) {
+           var myresult = JSON.stringify(response);
+               var result = JSON.parse(myresult,function (key, value){
+                 return value;
+               });
+            if(result.searchSubs.length !=1){
+                //alert('Cannot find any Customer with search data.\nPlease refine your search !');
+                showAlert('Cannot find any Customer with search data.\nPlease refine your search !',alertDismissed,'Search Subscribers','OK') //msg,dismissfunc,title,btnName)
+                return false;
+            }
+             $.each(result.searchSubs, function(i, field) {
+                 $('#subsState').html(field.PresentState);
+                 if($('#subsState').html()=='Active'){
+                  $('#subsState').css('color','blue');
+                 } else {
+                  $('#subsState').css('color','red');
+                 }
+                 $('#cID').text(field.CustomerID);
+                 $('#cafNo').text(field.CAFNo);
+                 $('#vcNo').text(field.SMCNo);
+                 $('#stbNo').text(field.STBNo);
+                 
+             });
+             getSubsProducts();
+        },
+             error      : function(jqXHR, exception) {
+                   clearData();
+
+                   if (jqXHR.status === 0) {
+                      //alert('Not connect.n Verify Network.');
+                      showAlert('Not connected. Verify Network.',alertDismissed,'Network connection','OK') //msg,dismissfunc,title,btnName)
+                  } else if (jqXHR.status == 404) {
+                      //alert('Requested page not found. [404]');
+                       showAlert('Requested page not found. [404]',alertDismissed,'Network connection','OK') //msg,dismissfunc,title,btnName)
+                  } else if (jqXHR.status == 500) {
+                      //alert('Internal Server Error [500].');
+                       showAlert('Internal Server Error [500].',alertDismissed,'Network connection','OK') //msg,dismissfunc,title,btnName)
+                  } else if (exception === 'parsererror') {
+                      //alert('Requested JSON parse failed.');
+                       showAlert('Requested JSON parse failed.',alertDismissed,'Network connection','OK') //msg,dismissfunc,title,btnName)
+                  } else if (exception === 'timeout') {
+                      //alert('Time out error.');
+                       showAlert('Time out error.',alertDismissed,'Network connection','OK') //msg,dismissfunc,title,btnName)
+                  } else if (exception === 'abort') {
+                      //alert('Ajax request aborted.');
+                       showAlert('Ajax request aborted.',alertDismissed,'Network connection','OK') //msg,dismissfunc,title,btnName)
+                  } else {
+                     // alert('Uncaught Error.n' + jqXHR.responseText);
+                      showAlert('Uncaught Error',alertDismissed,'Network connection','OK') //msg,dismissfunc,title,btnName)
+                  }
+
+            }
+
+    });
+  }
+  function getSubsProducts(){
+    if($('#cID').text() == ''){
+      //alert('Please select a Customer first !');
+      showAlert('Please select a Customer first !',alertDismissed,'Search for Subscribers','OK') //msg,dismissfunc,title,btnName)
+      return false;
+    }
+    var defaultUrl = localStorage.getItem("dUrl");
+    var customerID =  $('#cID').text();
+
+    var myUrl = defaultUrl + "/Subscribers/customerID/" + customerID ;
+
+    $.ajax({
+        url : myUrl,
+        dataType   : 'json',
+        crossDomain: true,
+        cache: false,
+        beforeSend : function() {$("#loader").show();},
+        complete   : function() {$("#loader").hide();},
+        // data       : {uName : uName, password : uPwd}, 
+        success    : function(response) {
+           var myresult = JSON.stringify(response);
+               var result = JSON.parse(myresult,function (key, value){
+                 return value;
+               });
+            if(result.subsPacks.length < 1){
+                //alert('Cannot find any Packages being configured.\nPlease check with Administrator !');
+                showAlert('Cannot find any Packages being configured.\nPlease check with Administrator !',alertDismissed,'Activate / DActivate Subscribers','OK') //msg,dismissfunc,title,btnName)
+      return false;
+                return false;
+            }
+             $.each(result.subsPacks, function(i, field) {
+                  $("#subsProducts").append("<tr onclick='MyClick(this)'><td align='center'>" + field.PackNo + "</td><td>" + field.PackName + "</td><td>" + JSON.stringify(field.StartDate).replace(/null/i, "\"\"")  + "</td><td>" + JSON.stringify(field.EndDate).replace(/null/i, "\"\"")  + "</td></tr>");
+                        });               
+          },
+             error      : function(jqXHR, exception) {
+                    $('#subsProducts').find('tr td').remove(); // Clear Subscriber Products Table
+
+                   if (jqXHR.status === 0) {
+                      showAlert('Not connected. Verify Network.',alertDismissed,'Network connection','OK') 
+                  } else if (jqXHR.status == 404) {
+                       showAlert('Requested page not found. [404]',alertDismissed,'Network connection','OK') 
+                  } else if (jqXHR.status == 500) {
+                       showAlert('Internal Server Error [500].',alertDismissed,'Network connection','OK')
+                  } else if (exception === 'parsererror') {
+                       showAlert('Requested JSON parse failed.',alertDismissed,'Network connection','OK')
+                  } else if (exception === 'timeout') {
+                       showAlert('Time out error.',alertDismissed,'Network connection','OK')
+                  } else if (exception === 'abort') {
+                       showAlert('Ajax request aborted.',alertDismissed,'Network connection','OK')
+                  } else {
+                      showAlert('Uncaught Error',alertDismissed,'Network connection','OK')
+                  }
+
+            }
+
+    });
+  }
+  function buyCancel(action){
+    if($('#cID').text() == ''){
+      showAlert('Please select a Customer first !',alertDismissed,'Activate / DActivate Subscribers','OK') //msg,dismissfunc,title,btnName)
+      return false;
+    }
+    if((action != 2) && ($('#selectedPackNo').html() == '')){
+      showAlert('Please select a Package first !',alertDismissed,'Activate / DActivate Subscribers','OK') //msg,dismissfunc,title,btnName)
+      return false;
+    }
+
+    var packNo = 1
+    if(action != 2){
+       packNo = $('#selectedPackNo').html();
+    } 
+
+    var noDays = $('#nDays').val();
+    var defaultUrl = localStorage.getItem("dUrl");
+    var customerID =  $('#cID').text();
+    var myUrl = defaultUrl + "/Subscribers/customerID/" + customerID + "/packNo/" + packNo + "/actionType/" + action + "/noDays/" + noDays;
+    $.ajax({
+        url : myUrl,
+        dataType   : 'json',
+        crossDomain: true,
+        cache: false,
+        beforeSend : function() {$("#loader").show();},
+        complete   : function() {$("#loader").hide();},
+        // data       : {uName : uName, password : uPwd}, 
+        success    : function(response) {
+                     var myresult = JSON.stringify(response);
+                     //alert(myresult);
+                     showAlert(myresult,alertDismissed,'Activate / DActivate result','OK') //msg,dismissfunc,title,btnName)
+        },
+         error      : function(jqXHR, exception) {
+                    $('#subsProducts').find('tr td').remove(); // Clear Subscriber Products Table
+
+                    if (jqXHR.status === 0) {
+                      showAlert('Not connected. Verify Network.',alertDismissed,'Network connection','OK') 
+                  } else if (jqXHR.status == 404) {
+                       showAlert('Requested page not found. [404]',alertDismissed,'Network connection','OK') 
+                  } else if (jqXHR.status == 500) {
+                       showAlert('Internal Server Error [500].',alertDismissed,'Network connection','OK')
+                  } else if (exception === 'parsererror') {
+                       showAlert('Requested JSON parse failed.',alertDismissed,'Network connection','OK')
+                  } else if (exception === 'timeout') {
+                       showAlert('Time out error.',alertDismissed,'Network connection','OK')
+                  } else if (exception === 'abort') {
+                       showAlert('Ajax request aborted.',alertDismissed,'Network connection','OK')
+                  } else {
+                      showAlert('Uncaught Error',alertDismissed,'Network connection','OK')
+                  }
+
+            }
+    });
+  }
+</script>
+<script>
+  function showAlert(msg,dismissfunc,title,btnName){
+    navigator.notification.alert(
+            msg,  // message
+            dismissfunc,         // callback
+            title,            // title
+            btnName                  // buttonName
+        ); 
+  }
+
+       function showExit(){
+        navigator.notification.confirm(
+            'Will close the App !',  // message
+             onConfirm,         // callback
+            'Closing the App',            // title
+            ['OK','Cancel']                   // buttonName
+        ); 
+        function onConfirm(buttonIndex) {
+          //alert('You selected button ' + buttonIndex);  1= Cancel; 2 = Exit
+           if(buttonIndex == 1){
+            navigator.app.exitApp();
+           }
+        }
+       }
+
+      // alert dialog dismissed
+        function alertDismissed() {
+            // do something
+        }
+</script>
+</body>
+</html> 
