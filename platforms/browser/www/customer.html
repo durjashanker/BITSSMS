@@ -50,6 +50,10 @@ body {margin:0;}
       <th scope="row" width="35%">STB Number</th>
       <td id="stbNo"></td>
     </tr>
+    <tr>
+      <th scope="row" width="35%">LCO Code</th>
+      <td id="lcoCode"></td>
+    </tr>
   </table>
   </br><hr/>
   <!-- <h5>Subscription / Package details :</h5> -->
@@ -122,6 +126,7 @@ body {margin:0;}
     $('#cafNo').text('');
     $('#vcNo').text('');
     $('#stbNo').text('');
+    $('#lcoCode').text('');
     $('#subsProducts').find('tr td').remove();
     $('#selectedPackNo').html('');
   }
@@ -169,6 +174,7 @@ body {margin:0;}
                  $('#cafNo').text(field.CAFNo);
                  $('#vcNo').text(field.SMCNo);
                  $('#stbNo').text(field.STBNo);
+                 $('#lcoCode').text(field.RegionID);
                  
              });
              getSubsProducts();
