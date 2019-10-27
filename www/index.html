@@ -92,7 +92,7 @@
         var pref1 = localStorage.getItem("dUrl");
 
         if((pref1 == '') || (pref1 == null)){
-        	localStorage.setItem("dUrl", "http://smsdemo.balajiitsolutions.in");
+        	//localStorage.setItem("dUrl", "http://smsdemo.balajiitsolutions.in");
         }
         
     	function goSettings(){
@@ -116,7 +116,7 @@
             var defaultUrl = localStorage.getItem("dUrl");
             var uName = $('#uname').val();
             var uPwd = $('#pwd').val();
-            var myUrl = defaultUrl + "/SignIn/uName/" + uName + "/uPwd/" + uPwd;
+            var myUrl = defaultUrl + "/signin/uName/" + uName + "/uPwd/" + uPwd;
             // alert(myUrl);
          $.ajax({
             url : myUrl,
