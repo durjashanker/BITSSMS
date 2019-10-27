@@ -288,7 +288,8 @@ body {margin:0;}
     var noDays = $('#nDays').val();
     var defaultUrl = localStorage.getItem("dUrl");
     var customerID =  $('#cID').text();
-    var myUrl = defaultUrl + "/Subscribers/customerID/" + customerID + "/packNo/" + packNo + "/actionType/" + action + "/noDays/" + noDays;
+    var uName = localStorage.getItem("uName");
+    var myUrl = defaultUrl + "/Subscribers/customerID/" + customerID + "/packNo/" + packNo + "/actionType/" + action + "/noDays/" + noDays + "/uName/" + uName;
     $.ajax({
         url : myUrl,
         dataType   : 'json',
