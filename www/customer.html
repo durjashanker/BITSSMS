@@ -158,13 +158,9 @@ body {margin:0;}
                var result = JSON.parse(myresult,function (key, value){
                  return value;
                });
-            if(result.searchSubs.length = 0){
-                showAlert('Cannot find any Customer with search data.\nPlease refine your search !',alertDismissed,'Search Subscribers','OK') //msg,dismissfunc,title,btnName)
-                return false;
-            }
             if(result.searchSubs.length > 1){
                 //alert('Cannot find any Customer with search data.\nPlease refine your search !');
-                showAlert('Morethan 1 matching records found.\nPlease refine your search !',alertDismissed,'Search Subscribers','OK') //msg,dismissfunc,title,btnName)
+                showAlert('Cannot find any Customer with search data.\nPlease refine your search !',alertDismissed,'Search Subscribers','OK') //msg,dismissfunc,title,btnName)
                 return false;
             }
              $.each(result.searchSubs, function(i, field) {
