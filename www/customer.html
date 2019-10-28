@@ -22,7 +22,7 @@ body {margin:0;}
   <a href="#" onclick="showExit();"><i class="fa fa-close"></i></a>
   <a href="#" onclick="goSettings();"><i class="fa fa-cog"></i></a> 
 </div>
-<div class="row searchBar">
+<div class="row searchBar flex-container">
    <div style="float:right;">
     <label for="usr">Welcome user :</label><label id="usr" style="font-weight:bold;text-transform:capitalize;padding-left:2px;"></label>
    </div>
@@ -77,7 +77,7 @@ body {margin:0;}
   <span>Click a row to select a Package</span>
   </div>
 
-  <div class="row"><span>Selected Package No. :</span><label id="selectedPackNo" style="padding-left:5px;color:black;font-weight:bold"></label>
+  <div class="row flex-container"><span>Selected Package No. :</span><label id="selectedPackNo" style="padding-left:5px;color:black;font-weight:bold"></label>
     <span style="float:right">No of Days: <input type="number" id="nDays" min="1" max="365" value=30></span></div></br>
   <div class="row flex-container">
     <input type="button" value="DActivate" onclick="DAct();">
