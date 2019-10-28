@@ -40,7 +40,8 @@
       	 var pref1 = $('#serverUrl').val();
          localStorage.setItem("dUrl",pref1);
          getUrl();
-         alert('Save succesful');
+         //alert('Save succesful');
+	 showAlert('Save succesful',alertDismissed,'Search Subscribers','OK');
       } 
       function goBack() {
       	window.history.back()
