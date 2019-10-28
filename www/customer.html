@@ -22,11 +22,12 @@ body {margin:0;}
   <a href="#" onclick="showExit();"><i class="fa fa-close"></i></a>
   <a href="#" onclick="goSettings();"><i class="fa fa-cog"></i></a> 
 </div>
-<div class="row searchBar flex-container">
-   <div style="float:right;">
-    <label for="usr">Welcome user :</label><label id="usr" style="font-weight:bold;text-transform:capitalize;padding-left:2px;"></label>
-   </div>
-   </br></br>
+    <div class="row flex-container">
+       <span style="float:right;">
+          <label for="usr">Welcome user :</label><label id="usr" style="font-weight:bold;text-transform:capitalize;padding-left:2px;"></label>
+       </span>
+    </div>
+<div class="row searchBar">
    <span><b>Search for:</b>UID/CAF/VC No./STB No.</span></br>
    <span><input type="search" name="Search Customer" id="sString">
    <input type="button" value="Search" onclick="searchSubs();"></span>
