@@ -283,10 +283,10 @@ body {margin:0;}
        packNo = $('#selectedPackNo').html();
     } 
 
-    var noDays = $('#nDays').val();
-    var defaultUrl = localStorage.getItem("dUrl");
-    var customerID =  $('#cID').text();
-    var uName = localStorage.getItem("uName");
+    var noDays = $.trim($('#nDays').val().toString());
+    var defaultUrl = $.trim(localStorage.getItem("dUrl"));
+    var customerID = $.trim($('#cID').text());
+    var uName = $.trim(localStorage.getItem("uName"));
     var myUrl = defaultUrl + "/Subscribers/customerID/" + customerID + "/packNo/" + packNo + "/actionType/" + action + "/noDays/" + noDays + "/uName/" + uName;
     $.ajax({
         url : myUrl,
@@ -298,12 +298,11 @@ body {margin:0;}
         // data       : {uName : uName, password : uPwd}, 
         success    : function(response) {
                      var myresult = JSON.stringify(response);
-                     //alert(myresult);
-                     showAlert(myresult,alertDismissed,'Activate / DActivate result','OK') //msg,dismissfunc,title,btnName)
+                     showAlert(myresult,alertDismissed,'Activate / DActivate result','OK'); //msg,dismissfunc,title,btnName)
+                     $('#subsProducts').find('tr td').remove(); // Clear Subscriber Products Table
+                     getSubsProducts();
         },
-         error      : function(jqXHR, exception) {
-                    $('#subsProducts').find('tr td').remove(); // Clear Subscriber Products Table
-
+         error      : function(jqXHR, exception) {                 
                     if (jqXHR.status === 0) {
                       showAlert('Not connected. Verify Network.',alertDismissed,'Network connection','OK') 
                   } else if (jqXHR.status == 404) {
@@ -319,7 +318,8 @@ body {margin:0;}
                   } else {
                       showAlert('Uncaught Error',alertDismissed,'Network connection','OK')
                   }
-
+                 $('#subsProducts').find('tr td').remove(); // Clear Subscriber Products Table
+                 getSubsProducts();
             }
     });
   }
