@@ -66,7 +66,6 @@ body {margin:0;}
       <tr>
           <th align="center">Pack No</th>
           <th>Pack Name</th>
-          <th>Start Date</th>
           <th>End Date</th>
           <th>Price</th>
           </tr>
@@ -243,8 +242,9 @@ body {margin:0;}
                 return false;
             }
              $.each(result.subsPacks, function(i, field) {
-                  $("#subsProducts").append("<tr onclick='MyClick(this)'><td align='center'>" + field.PackNo + "</td><td>" + field.PackName + "</td><td>" + JSON.stringify(field.StartDate).replace(/null/i, "\"\"")  + "</td><td>" + JSON.stringify(field.EndDate).replace(/null/i, "\"\"") + "</td><td>" + field.MonthlyRental + "</td></tr>");
-                        });               
+                  $("#subsProducts").append("<tr onclick='MyClick(this)'><td align='center'>" + field.PackNo + "</td><td>" + field.PackName + "</td><td>" + JSON.stringify(field.EndDate).replace(/null/i, "\"\"") + "</td><td>" + field.MonthlyRental + "</td></tr>");
+                        }); 
+            //+ JSON.stringify(field.StartDate).replace(/null/i, "\"\"")  + "</td><td>"
           },
              error      : function(jqXHR, exception) {
                     $('#subsProducts').find('tr td').remove(); // Clear Subscriber Products Table
