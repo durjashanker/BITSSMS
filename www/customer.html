@@ -68,9 +68,9 @@ body {margin:0;}
           <th>Pack Name</th>
           <th>Start Date</th>
           <th>End Date</th>
+          <th>Price</th>
           </tr>
     </thead>
-
     <tbody>
       
     </tbody>
@@ -78,11 +78,11 @@ body {margin:0;}
   </div>
   <br/>
   <div class="row flex-container">
-    <span style="float:left;padding-left:5px;">Selected Package No. :<label id="selectedPackNo" style="font-weight:bold"></label></span>
+    <span style="float:left;">Selected Package No. :<label id="selectedPackNo" style="font-weight:bold"></label></span>
     <span style="float:right">No of Days: <input type="number" id="nDays" min="1" max="365" value=30></span>
   </div></br>
   <div class="row flex-container">
-    <input type="button" value="DActivate" onclick="DAct();">
+    <input type="button" value="DActivate Box" onclick="DAct();">
     <input type="button" value="Cancel Pack" onclick="Can();">
     <input type="button" value="Buy / Update Pack" onclick="Act();">
   </div>
@@ -163,7 +163,7 @@ body {margin:0;}
                });
             if(result.searchSubs.length != 1){
                 //alert('Cannot find any Customer with search data.\nPlease refine your search !');
-                showAlert('Cannot find any Customer with search data.\nPlease refine your search !',alertDismissed,'Search Subscribers','OK') //msg,dismissfunc,title,btnName)
+                showAlert('Cannot find any Customer.\nPlease refine your search !',alertDismissed,'Search Subscribers','OK') //msg,dismissfunc,title,btnName)
                 return false;
             }
              $.each(result.searchSubs, function(i, field) {
@@ -243,7 +243,7 @@ body {margin:0;}
                 return false;
             }
              $.each(result.subsPacks, function(i, field) {
-                  $("#subsProducts").append("<tr onclick='MyClick(this)'><td align='center'>" + field.PackNo + "</td><td>" + field.PackName + "</td><td>" + JSON.stringify(field.StartDate).replace(/null/i, "\"\"")  + "</td><td>" + JSON.stringify(field.EndDate).replace(/null/i, "\"\"")  + "</td></tr>");
+                  $("#subsProducts").append("<tr onclick='MyClick(this)'><td align='center'>" + field.PackNo + "</td><td>" + field.PackName + "</td><td>" + JSON.stringify(field.StartDate).replace(/null/i, "\"\"")  + "</td><td>" + JSON.stringify(field.EndDate).replace(/null/i, "\"\"") + "</td><td>" + field.PackPrice + "</td></tr>");
                         });               
           },
              error      : function(jqXHR, exception) {
