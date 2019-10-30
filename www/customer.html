@@ -243,7 +243,7 @@ body {margin:0;}
                 return false;
             }
              $.each(result.subsPacks, function(i, field) {
-                  $("#subsProducts").append("<tr onclick='MyClick(this)'><td align='center'>" + field.PackNo + "</td><td>" + field.PackName + "</td><td>" + JSON.stringify(field.StartDate).replace(/null/i, "\"\"")  + "</td><td>" + JSON.stringify(field.EndDate).replace(/null/i, "\"\"") + "</td><td>" + field.PackPrice + "</td></tr>");
+                  $("#subsProducts").append("<tr onclick='MyClick(this)'><td align='center'>" + field.PackNo + "</td><td>" + field.PackName + "</td><td>" + JSON.stringify(field.StartDate).replace(/null/i, "\"\"")  + "</td><td>" + JSON.stringify(field.EndDate).replace(/null/i, "\"\"") + "</td><td>" + field.MonthlyRental + "</td></tr>");
                         });               
           },
              error      : function(jqXHR, exception) {
