@@ -299,7 +299,6 @@ body {margin:0;}
         // data       : {uName : uName, password : uPwd}, 
         success    : function(response) {
                      var myresult = JSON.stringify(response);
-                     alert(myresult);
                      showAlert(myresult,alertDismissed,'Activate / DActivate result','OK'); //msg,dismissfunc,title,btnName)
                      $('#subsProducts').find('tr td').remove(); // Clear Subscriber Products Table
                      getSubsProducts();
