@@ -83,7 +83,7 @@ body {margin:0;}
   <div class="row flex-container">
     <input type="button" value="DActivate Box" onclick="DAct();">
     <input type="button" value="Cancel Pack" onclick="Can();">
-    <input type="button" value="Buy / Update Pack" onclick="Act();">
+    <input type="button" value="Buy / Renew Pack" onclick="Act();">
   </div>
 
 </div>
@@ -100,7 +100,7 @@ body {margin:0;}
             $('#selectedPackNo').html($(this).find('td:eq(0)').text());
          });
        $("input").click(function() {
-          if(this.value == 'Buy / Update Pack'){
+          if(this.value == 'Buy / Renew Pack'){
             buyCancel(1);
           }
           if(this.value == 'Cancel Pack'){
