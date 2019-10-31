@@ -31,7 +31,7 @@ body {margin:0;}
    <span><b>Search for:</b>UID/CAF/VC No./STB No.</span></br>
    <span><input type="search" name="Search Customer" id="sString">
    <input type="button" value="Search" onclick="searchSubs();"></span>
-</div></br>
+</div>
 
 <div class="" style="padding:5px;">
   <table>
@@ -59,6 +59,12 @@ body {margin:0;}
   </table>
   <!-- </br><hr/> -->
   <!-- <h5>Subscription / Package details :</h5> -->
+  
+  <div class="row searchBar">
+  	 <span><label>Search Package :</label></span>
+  	 <span><input type="text" id="myInput" ></span>
+  </div>
+   
   <div style="height:40vh;overflow-y:auto;">
   <table id="subsProducts" class="table-responsive"> 
     <caption>Subscription details  - <span>Click a row to select a Package</span></caption>
@@ -92,6 +98,20 @@ body {margin:0;}
             <img src='../www/img/processing.gif' width='64px' height='64px'><br>Loading..
         </div>
     <!-- Image loader -->
+
+<script>
+    $("#myInput").on('keyup', function () {
+    var f = $(this).val();
+    $("#subsProducts tr").not('thead tr').each(function () {
+        if ($(this).text().search(new RegExp(f, "i")) < 0) {
+            $(this).hide();
+        } else {
+            $(this).show();
+        }
+    });
+});
+</script>
+
 <script>
   $(document).ready(function() {
        clearData();
