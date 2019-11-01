@@ -290,7 +290,8 @@ body {margin:0;}
                 return false;
             }
              $.each(result.subsPacks, function(i, field) {
-                  $("#subsProducts").append("<tr onclick='MyClick(this)'><td align='center'>" + field.PackNo + "</td><td>" + field.PackName + "</td><td>" + JSON.stringify(field.EndDate).replace(/null/i, "").replace(/\"/g, "") + "</td><td>" + field.MonthlyRental + "</td></tr>");
+		     var dateStr= (field.EndDate).split(' ')[0];
+                  $("#subsProducts").append("<tr onclick='MyClick(this)'><td align='center'>" + field.PackNo + "</td><td>" + field.PackName + "</td><td>" + dateStr + "</td><td>" + field.MonthlyRental + "</td></tr>");
                         }); 
                   getWalletBalance(); 
             //+ JSON.stringify(field.StartDate).replace(/null/i, "\"\"")  + "</td><td>"
