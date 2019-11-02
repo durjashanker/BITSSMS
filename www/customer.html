@@ -17,8 +17,7 @@ body {margin:0;}
 <div class="icon-bar">
   <a href="#" onclick="goHome();"><i class="fa fa-home"></i></a> 
   <a class="active" href="#"><i class="fa fa-user"></i></a> 
-  <a href="#"><i class="fa fa-id-card"></i></a> 
-  <!-- <a href="#" onclick="quit();"><i class="fa fa-close"></i></a> -->
+  <a href="#" onclick="gocaf();"><i class="fa fa-id-card"></i></a> 
   <a href="#" onclick="showExit();"><i class="fa fa-close"></i></a>
   <a href="#" onclick="goSettings();"><i class="fa fa-cog"></i></a> 
 </div>
@@ -85,23 +84,26 @@ body {margin:0;}
             /*.tableClassName thead {width: calc( 100% - 1.1em );}*/
             .tableClassName tr td:first-child {width: 15%;}
             .tableClassName tr th:first-child {width: 15%;}
-            .tableClassName tr td:nth-child(2) {width: 45%;}
-            .tableClassName tr th:nth-child(2) {width: 45%;}
-            .tableClassName tr td:nth-child(3) {width: 25%;}
-            .tableClassName tr th:nth-child(3) {width: 25%;}
-            .tableClassName tr td:nth-child(4) {width: 15%;}
-            .tableClassName tr th:nth-child(4) {width: 15%;}
+            .tableClassName tr td:nth-child(2) {width: 30%;}
+            .tableClassName tr th:nth-child(2) {width: 30%;}
+            .tableClassName tr td:nth-child(3) {width: 20%;}
+            .tableClassName tr th:nth-child(3) {width: 20%;}
+            .tableClassName tr td:nth-child(4) {width: 20%;}
+            .tableClassName tr th:nth-child(4) {width: 20%;}
+            .tableClassName tr td:nth-child(5) {width: 15%;}
+            .tableClassName tr th:nth-child(5) {width: 15%;}
         </style>
    
   <div class="form-container-fluid" style="padding:5px;" >
   <table id="subsProducts" class="table-responsive-sm tableClassName"> 
-    <caption>Subscription details  - <span>Click a row to select a Package</span></caption>
+    <caption>Subscription details  - <span style="color:yellow;">Click a row to select a Package</span></caption>
     <thead>
       <tr>
           <th align="center">Pack No</th>
           <th>Pack Name</th>
           <th>End Date</th>
           <th>Price</th>
+	  <th>State</th>
           </tr>
     </thead>
     <tbody>
@@ -142,8 +144,14 @@ body {margin:0;}
 
 <script>
   $(document).ready(function() {
-       clearData();
+       //clearData();
        showUsrName();
+	var cID = localStorage.getItem("customerID");
+       if (cID != '') {
+       		$('#sString').val(cID);
+       		searchSubs();
+       }
+	
        $("#subsProducts").delegate("tr", "click", function () {
             $('#selectedPackNo').html($(this).find('td:eq(0)').text());
          });
@@ -167,6 +175,9 @@ body {margin:0;}
   function goHome(){
     window.location='index.html';
   }
+   function gocaf(){
+      window.location='cafdata.html';
+    }
   function quit(){
      navigator.app.exitApp();
   }
@@ -179,6 +190,8 @@ body {margin:0;}
     $('#lcoCode').text('');
     $('#subsProducts').find('tr td').remove();
     $('#selectedPackNo').html('');
+    localStorage.setItem("cafNumber",'');
+    localStorage.setItem("customerID",'');
   }
   function showUsrName(){
      var msg = localStorage.getItem("uName");
@@ -221,7 +234,9 @@ body {margin:0;}
                   $('#subsState').css('color','red');
                  }
                  $('#cID').text(field.CustomerID);
+		 localStorage.setItem("customerID",field.CustomerID);
                  $('#cafNo').text(field.CAFNo);
+		 localStorage.setItem("cafNumber",field.CAFNo);
                  $('#vcNo').text(field.SMCNo);
                  $('#stbNo').text(field.STBNo);
                  $('#lcoCode').text(field.RegionID);
@@ -290,8 +305,8 @@ body {margin:0;}
                 return false;
             }
              $.each(result.subsPacks, function(i, field) {
-		     var dateStr= (field.EndDate).split(' ')[0];
-                  $("#subsProducts").append("<tr onclick='MyClick(this)'><td align='center'>" + field.PackNo + "</td><td>" + field.PackName + "</td><td>" + dateStr + "</td><td>" + field.MonthlyRental + "</td></tr>");
+		  var dateStr= (field.EndDate).split(' ')[0];
+                  $("#subsProducts").append("<tr onclick='MyClick(this)'><td align='center'>" + field.PackNo + "</td><td>" + field.PackName + "</td><td>" + dateStr + "</td><td>" + field.MonthlyRental + "</td><td>" + field.PState + + "</td></tr>");
                         }); 
                   getWalletBalance(); 
             //+ JSON.stringify(field.StartDate).replace(/null/i, "\"\"")  + "</td><td>"
