@@ -2,13 +2,15 @@
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="css/menu.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"/>
+    
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
-    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+   
 <style>
 body {margin:0;}
 </style>
@@ -305,9 +307,17 @@ body {margin:0;}
                 return false;
             }
              $.each(result.subsPacks, function(i, field) {
-		  var dateStr= (field.EndDate).split(' ')[0];
-                  $("#subsProducts").append("<tr onclick='MyClick(this)'><td align='center'>" + field.PackNo + "</td><td>" + field.PackName + "</td><td>" + dateStr + "</td><td>" + field.MonthlyRental + "</td><td>" + field.PState + + "</td></tr>");
-                        }); 
+		 var dateStr= (field.EndDate);
+             	  if(dateStr != null){
+             	  	dateStr= (dateStr).split(" ")[0];
+             	  } else { dateStr = ""}
+             	  
+                  $("#subsProducts").append("<tr onclick='MyClick(this)'><td align='center'>" + field.PackNo + "</td><td>" + field.PackName +"</td><td>" + 
+                  	JSON.stringify(dateStr).replace(/null/i, "").replace(/\"/g, "") + "</td><td>" + 
+                  	JSON.stringify(field.MonthlyRental) + "</td><td>" + 
+                  	JSON.stringify(field.PState).replace(/null/i, "").replace(/\"/g, "")  + "</td></tr>");
+                    }); 
+		
                   getWalletBalance(); 
             //+ JSON.stringify(field.StartDate).replace(/null/i, "\"\"")  + "</td><td>"
           },
