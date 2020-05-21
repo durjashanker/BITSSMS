@@ -1,200 +1,116 @@
 <!DOCTYPE html>
-<!--
-    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
-
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
-    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
-    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
-    <!-- Good default declaration:
-    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-        * Enable inline JS: add 'unsafe-inline' to default-src
-        * Enable eval(): add 'unsafe-eval' to default-src
-    * Create your own at http://cspisawesome.com
-    -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" />
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+.mobile-container {
+  max-width: 480px;
+  margin: auto;
+ /* background-color: #555;*/
+  background-color: lightgray;
+  height: 500px;
+  color: white;
+  border-radius: 10px;
+}
 
-    <title>BITS - SMS APP</title>
+.topnav {
+  overflow: hidden;
+  background-color: blue;
+  position: relative;
+}
+
+.topnav #myLinks {
+  display: none;
+}
+
+.topnav a {
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  display: block;
+}
+
+.topnav a.icon {
+  background: black;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.active {
+  /*background-color: #4CAF50;*/
+  /*background-color: #blue;*/
+  color: white;
+}
+</style>
 </head>
-
 <body>
-    <div class="app">
-        <h4>BITS - Subscriber Management System</h1>
-        <!-- <div onclick="goSettings()"><a href="settings.html">
-           <img src="../www/img/settingtransp.png" alt="Settings" style="width:30px;height:30px;border:0;vertical-align:middle">
-        </a><span>Settings</span></div> -->
-        <br/>
-        <div id="deviceready" class="blink">
-            <p class="event listening">Connecting to Server</p>
-            <div class="container">
-               <label for="uname"><b>Username</b></label>
-               <input type="text" placeholder="Enter Username" id="uname" required>
-               
 
-               <label for="psw"><b>Password</b></label>
-               <input type="password" placeholder="Enter Password" id="pwd" required>
-        
-               <!-- <button type="submit">Login</button> -->
+<!-- Simulate a smartphone / tablet -->
+<div class="mobile-container">
 
-            </div>
-           <!--  <p class="event listening">Connecting to Device</p>
-            <p class="event received">Welcome Durja</p> -->
-        </div>
-        <br/>
-        <!-- <div id="mNo">Try</div> -->
-        <div>
-            <span onclick="goSettings()"><img src="../www/img/settingtransp.png" alt="Settings" 
-                style="width:15px;height:15px;border:0;vertical-align:middle;">&nbsp;Settings</span>
-        	<span style="padding-left:30px;"><button type="button" style="color:red;margin-right:5px;" onclick="exitFromApp();">Exit</button></span>
-        	<span><button type="button" id="btn1" style="color:blue" onclick="signIn();">Sign In</button></span>
-        </div>
-    </div>
-        <!-- Image loader -->
-        <div id='loader' style="display:none;width:69px;height:89px;solid black;position:absolute;top:40%;left:40%;padding:2px;">
-            <img src='../www/img/processing.gif' width='64px' height='64px'><br>Loading..
-        </div>
-        <!-- Image loader -->
-        <div id="myAlert" style="display:none;position:absolute;top:40vh;left:40vw;padding:2px;"></div>
+<!-- Top Navigation Menu -->
+<div class="topnav">
+  <a href="#home" class="active"><!-- <img src="img/logo.png" width="26" height="26" style="border-radius:8px;margin-right:2px;"> -->BITS SMS</a>
+  <div id="myLinks">
+    <a href="#news">News</a>
+    <a href="customer.html">Contact</a>
+    <a href="#about">About</a>
+  </div>
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>
 
-    <!-- <script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script> -->
-    <script type="text/javascript">
-        app.initialize();
-        var pref1 = localStorage.getItem("dUrl");
+<!-- <div style="padding-left:16px">
+  <h3>Vertical Mobile Navbar</h3>
+  <p>This example demonstrates how a navigation menu on a mobile/smart phone could look like.</p>
+  <p>Click on the hamburger menu (three bars) in the top right corner, to toggle the menu.</p>
+</div> -->
+<center><h3>DVR DIGITAL COMMUNICATIONS</h3></center>
+<div class="container-fluid form-horizontal" style="margin-top:20%;width:60%">
+  <div class="input-group">
+      <span class="input-group-addon"><i class='fas fa-user' style='font-size:16px;' aria-hidden="true"></i></span>
+      <input type="text" class="form-control"
+         />
+   </div>
+   <br/>
+   <div class="input-group">
+      <span class="input-group-addon"><i class='fas fa-key' style='font-size:16px;' aria-hidden="true"></i></span>
+      <input type="text" class="form-control"
+          />
+   </div>
+</div>
 
-        if((pref1 == '') || (pref1 == null)){
-        	//localStorage.setItem("dUrl", "http://smsdemo.balajiitsolutions.in");
-        }
-        
-    	function goSettings(){
-    		window.location='settings.html';
-    	}
-         function gocaf(){
-            window.location='cafdata.html';
-        }
-        function gocustomer(){
-            window.location='customer.html';
-        }
-    	function exitFromApp()
-             {
-                navigator.app.exitApp();
-             }
-    	
-    </script>
-    <script>
-    	function signIn(){
-           // window.location='customer.html';
-           if(($('#uname').val()=='')|| ($('#pwd').val()=='')){
-            //alert('Username & Password are required !');
-            showuNameuPwdAlert();
-            return false;
-           }
-            var defaultUrl = localStorage.getItem("dUrl");
-            var uName = $('#uname').val();
-            var uPwd = $('#pwd').val();
-            var myUrl = defaultUrl + "/signin/uName/" + uName + "/uPwd/" + uPwd;
-            // alert(myUrl);
-         $.ajax({
-            url : myUrl,
-            dataType   : 'json',
-            crossDomain: true,
-            cache: false,
-            beforeSend : function() {$("#loader").show();},
-            complete   : function() {$("#loader").hide();},
-            // data       : {uName : uName, password : uPwd}, 
-            success    : function(response) {
-               var myresult = JSON.stringify(response);
-                   var result = JSON.parse(myresult,function (key, value){
-                     return value;
-                   });
-                if(result.uDetails.length !=1){
-                    //alert('User Name or Password is wrong.\nPlease check !');
-                    showinvalidCredentials();
-                    return false;
-                }
-                 $.each(result.uDetails, function(i, field) {
-                    localStorage.setItem("uName",field.UserName );
-                    localStorage.setItem("uType",field.UserType);
-                    localStorage.setItem("uCode",field.UserCode );
-                        
-                 });
-                 var msg = "Welcome user : " + localStorage.getItem("uName");
-                 window.location='customer.html';
 
-            },
-                 error      : function(jqXHR, exception) {
-             //console.error("error");
-             if (jqXHR.status === 0) {
-                alert('Not connect.n Verify Network.');
-            } else if (jqXHR.status == 404) {
-                alert('Requested page not found. [404]');
-            } else if (jqXHR.status == 500) {
-                alert('Internal Server Error [500].');
-            } else if (exception === 'parsererror') {
-                alert('Requested JSON parse failed.');
-            } else if (exception === 'timeout') {
-                alert('Time out error.');
-            } else if (exception === 'abort') {
-                alert('Ajax request aborted.');
-            } else {
-                alert('Uncaught Error.n' + jqXHR.responseText);
-            }
+<!-- End smartphone / tablet look -->
+</div>
 
-                }
-            });
-    	}
-    </script>
-    <script>
-        function showuNameuPwdAlert() {
-        navigator.notification.alert(
-            'Username & Password are required !',  // message
-             alertDismissed,         // callback
-            'User credentials missing',            // title
-            'OK'                  // buttonName
-        ); 
-       }
-       function showinvalidCredentials(){
-        navigator.notification.alert(
-            'Invalid Username / Password entered !',  // message
-             alertDismissed,         // callback
-            'User credentials invalid',            // title
-            'OK'                  // buttonName
-        ); 
-       }
-      // alert dialog dismissed
-        function alertDismissed() {
-            // do something
-        }
-    </script>
+<script>
+function myFunction() {
+  var x = document.getElementById("myLinks");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+}
+</script>
+
 </body>
-
 </html>
